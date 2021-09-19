@@ -1,0 +1,23 @@
+{
+  "name": "filename2mime",
+  "author": "tbhmens",
+  "version": "1.1.1",
+  "description": "A light-weight mime lookup for files",
+  "main": "./cjs.cjs",
+  "types": "./types.d.ts",
+  "exports": {
+    "import": "./mod.js",
+    "require": "./cjs.cjs"
+  },
+  "keywords": [
+    "mime"
+  ],
+  "type": "module",
+  "license": "MIT",
+  "files": [
+    "mime.cjs",
+    "cjs.cjs",
+    "mod.js",
+    "types.d.ts"
+  ]
+}
