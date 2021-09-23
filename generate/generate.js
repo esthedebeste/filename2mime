@@ -7,7 +7,7 @@ const result = {};
 // Map extensions to their mime-types
 for (const mime in db)
   if (db[mime].extensions)
-    for (const ext of db[mime].extensions) result[ext] ??= mime;
+    for (const ext of db[mime].extensions) result[ext.toLowerCase()] ??= mime;
 /**
  * Object key validity checker.
  * If this function returns true, you can leave it like { key: "value" }

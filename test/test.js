@@ -5,6 +5,7 @@ import defaultMime, {
 } from "filename2mime";
 import { readFileSync } from "fs";
 import { createRequire } from "module";
+import { exit } from "process";
 /**
  * Create a cjs-like require() function to test cjs interop.
  */
@@ -15,31 +16,37 @@ const { mime: cjsMime, lookup: cjsLookup } = cjs;
 const mime = JSON.parse(
   readFileSync(new URL("../generate/mime.json", import.meta.url))
 );
-deepStrictEqual(
-  defaultMime,
-  mime,
-  "Mime not equivalent to source. (module/default)"
-);
-deepStrictEqual(
-  mjsMime,
-  mime,
-  "Mime not equivalent to source. (module/export)"
-);
-deepStrictEqual(
-  cjsMime,
-  mime,
-  "Mime not equivalent to source. (cjs/exports.mime)"
-);
+try {
+  deepStrictEqual(
+    defaultMime,
+    mime,
+    "Mime not equivalent to source. (module/default)"
+  );
+  deepStrictEqual(
+    mjsMime,
+    mime,
+    "Mime not equivalent to source. (module/export)"
+  );
+  deepStrictEqual(
+    cjsMime,
+    mime,
+    "Mime not equivalent to source. (cjs/exports.mime)"
+  );
 
-deepStrictEqual(
-  cjsLookup("/path/to/a/file.txt"),
-  mime["txt"],
-  "Lookup issue (cjs/exports.lookup)"
-);
-deepStrictEqual(
-  mjsLookup("/path/to/a/file.txt"),
-  mime["txt"],
-  "Lookup issue (module/lookup)"
-);
+  deepStrictEqual(
+    cjsLookup("/path/to/a/file.txt"),
+    mime["txt"],
+    "Lookup issue (cjs/exports.lookup)"
+  );
+  deepStrictEqual(
+    mjsLookup("/path/to/a/file.txt"),
+    mime["txt"],
+    "Lookup issue (module/lookup)"
+  );
 
-console.log("Tests passed");
+  console.log("Tests passed");
+  exit(0);
+} catch (e) {
+  console.error(e.message);
+  exit(1);
+}
