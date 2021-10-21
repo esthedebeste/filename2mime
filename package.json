@@ -1,26 +1,25 @@
 {
   "name": "filename2mime",
   "author": "tbhmens",
-  "version": "1.1.2",
+  "version": "1.2.0",
   "description": "A light-weight mime lookup for files",
-  "main": "./cjs.cjs",
+  "main": "./cjs.js",
   "types": "./types.d.ts",
   "scripts": {
-    "prepack": "node ./generate/generate.js && node ./test/test.js"
+    "prepack": "cd ./generate && npm update && cd .. && node ./generate/generate.js && node ./test/test.js && echo Successfully updated mime"
   },
   "exports": {
-    "import": "./mod.js",
-    "require": "./cjs.cjs"
+    "import": "./mod.mjs",
+    "require": "./cjs.js"
   },
   "keywords": [
     "mime"
   ],
-  "type": "module",
   "license": "MIT",
   "files": [
-    "mime.cjs",
-    "cjs.cjs",
-    "mod.js",
+    "mime.js",
+    "cjs.js",
+    "mod.mjs",
     "types.d.ts"
   ]
 }

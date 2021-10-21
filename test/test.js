@@ -2,6 +2,7 @@ import { deepStrictEqual } from "assert";
 import defaultMime, {
   lookup as mjsLookup,
   mime as mjsMime,
+  reverse as mjsReverse
 } from "filename2mime";
 import { readFileSync } from "fs";
 import { createRequire } from "module";
@@ -11,7 +12,7 @@ import { exit } from "process";
  */
 const require = createRequire(import.meta.url);
 const cjs = require("filename2mime");
-const { mime: cjsMime, lookup: cjsLookup } = cjs;
+const { mime: cjsMime, lookup: cjsLookup, reverse: cjsReverse } = cjs;
 
 const mime = JSON.parse(
   readFileSync(new URL("../generate/mime.json", import.meta.url))
@@ -44,8 +45,21 @@ try {
     "Lookup issue (module/lookup)"
   );
 
+  deepStrictEqual(
+    cjsReverse,
+    Object.fromEntries(
+      Object.entries(mime).map(([key, value]) => [value, key])
+    ),
+    new Error("Reverse issue (cjs/reverse)")
+  );
+  deepStrictEqual(
+    mjsReverse,
+    Object.fromEntries(
+      Object.entries(mime).map(([key, value]) => [value, key])
+    ),
+    new Error("Reverse issue (module/reverse)")
+  );
   console.log("Tests passed");
-  exit(0);
 } catch (e) {
   console.error(e.message);
   exit(1);

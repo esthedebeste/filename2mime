@@ -54,7 +54,7 @@ const shortcuts = Object.fromEntries(
     "chemical/x-",
     "font/",
     "message/",
-    "message/vnd.",
+    "message/vnd."
   ].map((a, i) => [a, String.fromCharCode(97 + i)])
 );
 /**
@@ -95,9 +95,12 @@ const writing =
 /**
  * Fun fact: writeFileSync supports URLs, so this is possible
  */
-writeFileSync(new URL("../mime.cjs", import.meta.url), writing);
+writeFileSync(new URL("../mime.js", import.meta.url), writing);
 /**
- * Write to ./mime.json, this is used by test/test.js to test whether the outputted mime.cjs
+ * Write to generate/mime.json, this is used by test/test.js to test whether the outputted mime.js
  * is the same as the original mime data.
  */
-writeFileSync(new URL("./mime.json", import.meta.url), JSON.stringify(result));
+writeFileSync(
+  new URL("./mime.json", import.meta.url),
+  JSON.stringify(Object.fromEntries(Object.entries(result).sort()))
+);

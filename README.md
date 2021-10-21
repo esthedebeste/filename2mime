@@ -1,6 +1,6 @@
 # filename2mime
 
-A light-weight optimized file generated from [mime-db](https://npm.im/mime-db)
+A light-weight optimized file generated from [mime-db](https://npmjs.com/mime-db)
 
 ## Usage
 
