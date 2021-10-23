@@ -1,7 +1,7 @@
 {
   "name": "filename2mime",
   "author": "tbhmens",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "A light-weight mime lookup for files",
   "main": "./cjs.js",
   "types": "./types.d.ts",

@@ -1,8 +1,11 @@
-import { deepStrictEqual } from "assert";
+import {
+  deepStrictEqual as expectEqual,
+  ok as expectTrue,
+} from "assert/strict";
 import defaultMime, {
   lookup as mjsLookup,
   mime as mjsMime,
-  reverse as mjsReverse
+  reverse as mjsReverse,
 } from "filename2mime";
 import { readFileSync } from "fs";
 import { createRequire } from "module";
@@ -18,47 +21,39 @@ const mime = JSON.parse(
   readFileSync(new URL("../generate/mime.json", import.meta.url))
 );
 try {
-  deepStrictEqual(
+  expectEqual(
     defaultMime,
     mime,
     "Mime not equivalent to source. (module/default)"
   );
-  deepStrictEqual(
-    mjsMime,
-    mime,
-    "Mime not equivalent to source. (module/export)"
-  );
-  deepStrictEqual(
+  expectEqual(mjsMime, mime, "Mime not equivalent to source. (module/export)");
+  expectEqual(
     cjsMime,
     mime,
     "Mime not equivalent to source. (cjs/exports.mime)"
   );
 
-  deepStrictEqual(
+  expectEqual(
     cjsLookup("/path/to/a/file.txt"),
     mime["txt"],
     "Lookup issue (cjs/exports.lookup)"
   );
-  deepStrictEqual(
+  expectEqual(
     mjsLookup("/path/to/a/file.txt"),
     mime["txt"],
     "Lookup issue (module/lookup)"
   );
 
-  deepStrictEqual(
-    cjsReverse,
-    Object.fromEntries(
-      Object.entries(mime).map(([key, value]) => [value, key])
-    ),
-    new Error("Reverse issue (cjs/reverse)")
-  );
-  deepStrictEqual(
-    mjsReverse,
-    Object.fromEntries(
-      Object.entries(mime).map(([key, value]) => [value, key])
-    ),
-    new Error("Reverse issue (module/reverse)")
-  );
+  for (const ext in mime)
+    expectTrue(
+      cjsReverse[mime[ext]].includes(ext),
+      new Error("Reverse issue (cjs/reverse)")
+    );
+  for (const ext in mime)
+    expectTrue(
+      mjsReverse[mime[ext]].includes(ext),
+      new Error("Reverse issue (module/reverse)")
+    );
   console.log("Tests passed");
 } catch (e) {
   console.error(e.message);
