@@ -1,6 +1,6 @@
 {
-  "dependencies": {
-    "mime-db": "1.x"
-  },
-  "type": "module"
+	"dependencies": {
+		"mime-db": "1.x"
+	},
+	"type": "module"
 }
